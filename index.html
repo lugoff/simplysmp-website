@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SimplySMP Store</title>
+<meta name="description" content="Upgrade your experience on SimplySMP. Ranks and coins for the SimplySMP Minecraft server.">
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Pixelify+Sans:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #111214;
+    --surface: #17181b;
+    --surface-2: #1d1f23;
+    --border: #26282c;
+    --text: #e6e7e9;
+    --muted: #8e9196;
+    --green: #4fbf66;
+    --green-soft: #6fbf86;
+    --green-dark: #1a4527;
+    --pixel: "Pixelify Sans", Inter, system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 840px; margin: 0 auto; padding: 0 16px; }
+
+  /* header */
+  .top { text-align: center; padding: 72px 0 40px; }
+  .top h1 { font-family: var(--pixel); font-size: 44px; margin: 0; letter-spacing: 1px; }
+  .top h1 span { color: var(--green); }
+  .top p { font-family: var(--pixel); color: var(--muted); font-size: 17px; margin: 10px 0 8px; }
+  .ip {
+    font-family: var(--pixel); font-size: 16px; color: var(--green-soft); background: none; border: 0;
+    cursor: pointer; padding: 4px 8px; border-radius: 6px;
+  }
+  .ip:hover { background: var(--surface); }
+  .ip small { color: var(--muted); font-size: 12px; margin-left: 6px; }
+
+  /* sections */
+  section { padding: 30px 0 38px; }
+  section + section { border-top: 1px solid var(--border); }
+  .head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+  .head h2 { font-family: var(--pixel); font-size: 22px; margin: 0; }
+  .head span { color: var(--muted); font-size: 13px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+
+  /* rank cards */
+  .rank { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 20px 20px; display: flex; flex-direction: column; }
+  .rank.featured { border-color: var(--green-dark); }
+  .rank h3 { font-family: var(--pixel); font-size: 28px; margin: 0 0 18px; font-weight: 500; }
+  .rank h3 span { color: var(--green); }
+  .rank .tag { display: inline-block; font-size: 11px; font-weight: 600; color: var(--green-soft); background: #1a2a1f; border-radius: 6px; padding: 2px 8px; margin-bottom: 10px; align-self: flex-start; }
+  .rows { margin: 0 0 20px; flex: 1; }
+  .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .row:last-child { border-bottom: 0; }
+  .row b { font-weight: 700; }
+  .price-btn {
+    display: block; text-align: center; text-decoration: none; padding: 13px;
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
+    font-family: var(--pixel); font-size: 22px; color: var(--green); transition: border-color .15s, background .15s;
+  }
+  .price-btn small { font-size: 13px; color: var(--muted); margin-left: 4px; }
+  a.price-btn:hover { border-color: var(--green); background: #1a2a1f; }
+  .price-btn.free { color: var(--muted); cursor: default; }
+
+  /* coin cards */
+  .pack { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; text-align: center; position: relative; text-decoration: none; display: block; transition: border-color .15s; }
+  .pack:hover { border-color: var(--green-dark); }
+  .pack .bonus { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); font-family: var(--pixel); font-size: 12px; color: #0f1a12; background: var(--green); border-radius: 5px; padding: 1px 7px; }
+  .pack img { width: 100%; max-width: 190px; aspect-ratio: 384 / 352; image-rendering: pixelated; display: block; margin: 14px auto 4px; }
+  .pack .amount { font-family: var(--pixel); font-size: 19px; color: var(--green); }
+  .pack .was { color: var(--muted); text-decoration: line-through; font-size: 13px; margin-right: 6px; }
+  .pack .buy { margin: 14px auto 0; max-width: 200px; padding: 8px; border: 1px solid var(--border); border-radius: 8px; font-weight: 600; font-size: 14px; }
+  .pack .buy small { color: var(--muted); font-size: 11px; margin-left: 4px; }
+  .pack:hover .buy { border-color: var(--green); }
+
+  footer { border-top: 1px solid var(--border); padding: 26px 0 40px; text-align: center; color: var(--muted); font-size: 13px; }
+  footer nav a { color: var(--muted); margin: 0 9px; }
+  footer nav a:hover { color: var(--text); }
+  footer p { margin: 14px 0 0; font-size: 12px; }
+
+  @media (max-width: 520px) {
+    .top { padding-top: 48px; }
+    .top h1 { font-size: 36px; }
+    .head { flex-direction: column; gap: 2px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <h1>Simply<span>SMP</span></h1>
+    <p>Upgrade your experience on SimplySMP</p>
+    <button class="ip" id="ip" type="button">simplysmp.org<small>click to copy</small></button>
+  </div>
+
+  <section>
+    <div class="head"><h2>Ranks</h2><span>Find your next upgrade.</span></div>
+    <div class="grid" id="ranks"></div>
+  </section>
+
+  <section>
+    <div class="head"><h2>Coins</h2><span>Just after coins? Pick a one-time pack.</span></div>
+    <div class="grid" id="coins"></div>
+  </section>
+
+  <footer>
+    <nav>
+      <a href="https://discord.gg/HEVZFJ2D5T">Discord</a>
+      <a id="terms" href="#">Terms</a>
+      <a id="refunds" href="#">Refunds</a>
+    </nav>
+    <p>Payments are handled by Tebex. SimplySMP is not an official Minecraft product and is not approved by or associated with Mojang or Microsoft.</p>
+  </footer>
+
+</div>
+<script>
+  // =====================================================================
+  //  EDIT THIS PART. Everything on the page is built from these lists.
+  // =====================================================================
+
+  // Your Tebex store link (no / at the end)
+  var STORE_URL = 'https://PASTE-YOUR-STORE.tebex.io';
+
+  // id = the package's number in Tebex (open the package in the Tebex panel; it's in the address bar).
+  // Leave an id as 0 and that button opens the store's front page instead.
+
+  var RANKS = [
+    { name: 'Member', plus: '', free: true,
+      rows: [['Homes', 3], ['Auction slots', 18], ['Order slots', 9], ['Coins', 0]] },
+    { name: 'Simply', plus: '+', price: 9.99, note: 'one-time', id: 0, featured: true,
+      rows: [['Homes', 7], ['Auction slots', 27], ['Order slots', 18], ['Coins', 500]] },
+  ];
+
+  // amount: coins they get. was: crossed-out amount (leave out for none). bonus: green badge text.
+  // img: 1 (small) to 6 (big pile). These amounts and prices are EXAMPLES: set your own.
+  var COINS = [
+    { amount: 100,   price: 0.99,  img: 1, id: 0 },
+    { amount: 500,   price: 4.99,  img: 2, id: 0 },
+    { amount: 1100,  price: 9.99,  img: 3, id: 0, was: 1000,  bonus: '+10%' },
+    { amount: 2400,  price: 19.99, img: 4, id: 0, was: 2000,  bonus: '+20%' },
+    { amount: 6500,  price: 49.99, img: 5, id: 0, was: 5000,  bonus: '+30%' },
+    { amount: 14000, price: 99.99, img: 6, id: 0, was: 10000, bonus: '+40%' },
+  ];
+
+  // Links to your Terms and Refund pages on Tebex (leave '' to hide them)
+  var TERMS_URL = '';
+  var REFUNDS_URL = '';
+
+  // =====================================================================
+
+  function link(id) { return id ? STORE_URL + '/package/' + id : STORE_URL; }
+  function money(n) { return '$' + n.toFixed(2); }
+  function num(n) { return n.toLocaleString('en-US'); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  var ranks = document.getElementById('ranks');
+  RANKS.forEach(function (r) {
+    var card = el('div', 'rank' + (r.featured ? ' featured' : ''));
+    var h = el('h3', null, r.name); if (r.plus) h.appendChild(el('span', null, r.plus));
+    card.appendChild(h);
+    var rows = el('div', 'rows');
+    r.rows.forEach(function (row) {
+      var line = el('div', 'row'); line.appendChild(el('span', null, row[0])); line.appendChild(el('b', null, num(row[1])));
+      rows.appendChild(line);
+    });
+    card.appendChild(rows);
+    var btn;
+    if (r.free) { btn = el('div', 'price-btn free', 'Free'); }
+    else {
+      btn = el('a', 'price-btn', money(r.price)); btn.href = link(r.id);
+      btn.appendChild(el('small', null, 'USD' + (r.note ? ' · ' + r.note : '')));
+    }
+    card.appendChild(btn);
+    ranks.appendChild(card);
+  });
+
+  var coins = document.getElementById('coins');
+  COINS.forEach(function (c) {
+    var card = el('a', 'pack'); card.href = link(c.id);
+    if (c.bonus) card.appendChild(el('span', 'bonus', c.bonus));
+    var img = el('img'); img.src = 'img/coins-' + c.img + '.png'; img.alt = ''; img.loading = 'lazy';
+    card.appendChild(img);
+    var amount = el('div', 'amount');
+    if (c.was) amount.appendChild(el('span', 'was', num(c.was)));
+    amount.appendChild(document.createTextNode(num(c.amount) + ' Coins'));
+    card.appendChild(amount);
+    var buy = el('div', 'buy', money(c.price)); buy.appendChild(el('small', null, 'USD'));
+    card.appendChild(buy);
+    coins.appendChild(card);
+  });
+
+  [['terms', TERMS_URL], ['refunds', REFUNDS_URL]].forEach(function (p) {
+    var a = document.getElementById(p[0]);
+    if (p[1]) a.href = p[1]; else a.style.display = 'none';
+  });
+
+  document.getElementById('ip').addEventListener('click', function () {
+    var small = this.querySelector('small');
+    var done = function () { small.textContent = 'copied!'; setTimeout(function () { small.textContent = 'click to copy'; }, 1500); };
+    if (navigator.clipboard) navigator.clipboard.writeText('simplysmp.org').then(done, done); else done();
+  });
+</script>
+</body>
+</html>
