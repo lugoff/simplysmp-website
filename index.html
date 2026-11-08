@@ -186,7 +186,7 @@
   COINS.forEach(function (c) {
     var card = el('a', 'pack'); card.href = link(c.id);
     if (c.bonus) card.appendChild(el('span', 'bonus', c.bonus));
-    var img = el('img'); img.src = 'img/coins-' + c.img + '.png'; img.alt = ''; img.loading = 'lazy';
+    var img = el('img'); img.src = 'coins-' + c.img + '.png'; img.alt = ''; img.loading = 'lazy';
     card.appendChild(img);
     var amount = el('div', 'amount');
     if (c.was) amount.appendChild(el('span', 'was', num(c.was)));
