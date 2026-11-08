@@ -53,9 +53,10 @@
   /* rank cards */
   .rank { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 20px 20px; display: flex; flex-direction: column; }
   .rank.featured { border-color: var(--green-dark); }
+  .rank.featured .tag { color: var(--green-soft); background: #1a2a1f; }
   .rank h3 { font-family: var(--pixel); font-size: 28px; margin: 0 0 18px; font-weight: 500; }
   .rank h3 span { color: var(--green); }
-  .rank .tag { display: inline-block; font-size: 11px; font-weight: 600; color: var(--green-soft); background: #1a2a1f; border-radius: 6px; padding: 2px 8px; margin-bottom: 10px; align-self: flex-start; }
+  .rank .tag { display: inline-block; font-size: 11px; font-weight: 600; color: var(--muted); background: var(--surface-2); border-radius: 6px; padding: 2px 8px; margin-bottom: 10px; align-self: flex-start; }
   .rows { margin: 0 0 20px; flex: 1; }
   .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
   .row:last-child { border-bottom: 0; }
@@ -71,14 +72,14 @@
 
   /* coin cards */
   .pack { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; text-align: center; position: relative; text-decoration: none; display: block; transition: border-color .15s; }
-  .pack:hover { border-color: var(--green-dark); }
-  .pack .bonus { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); font-family: var(--pixel); font-size: 12px; color: #0f1a12; background: var(--green); border-radius: 5px; padding: 1px 7px; }
+  .pack:hover { border-color: #5c4a1a; }
+  .pack .bonus { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 700; color: #0f1a12; background: var(--green); border-radius: 5px; padding: 1px 7px; }
   .pack img { width: 100%; max-width: 190px; aspect-ratio: 384 / 352; image-rendering: pixelated; display: block; margin: 14px auto 4px; }
-  .pack .amount { font-family: var(--pixel); font-size: 19px; color: var(--green); }
-  .pack .was { color: var(--muted); text-decoration: line-through; font-size: 13px; margin-right: 6px; }
+  .pack .amount { font-size: 20px; font-weight: 700; color: #f5c542; letter-spacing: 0.2px; }
+  .pack .was { color: var(--muted); text-decoration: line-through; font-size: 14px; font-weight: 500; margin-right: 6px; }
   .pack .buy { margin: 14px auto 0; max-width: 200px; padding: 8px; border: 1px solid var(--border); border-radius: 8px; font-weight: 600; font-size: 14px; }
   .pack .buy small { color: var(--muted); font-size: 11px; margin-left: 4px; }
-  .pack:hover .buy { border-color: var(--green); }
+  .pack:hover .buy { border-color: #f5c542; }
 
   footer { border-top: 1px solid var(--border); padding: 26px 0 40px; text-align: center; color: var(--muted); font-size: 13px; }
   footer nav a { color: var(--muted); margin: 0 9px; }
@@ -133,10 +134,12 @@
   // Leave an id as 0 and that button opens the store's front page instead.
 
   var RANKS = [
-    { name: 'Member', plus: '', free: true,
+    { name: 'Member', plus: '', tag: 'Default', free: true,
       rows: [['Homes', 3], ['Auction slots', 18], ['Order slots', 9], ['Coins', 0]] },
-    { name: 'Simply', plus: '+', price: 9.99, note: 'one-time', id: 0, featured: true,
+    { name: 'Simply', plus: '+', tag: 'Monthly', price: 4.99, note: '/month', id: 0,
       rows: [['Homes', 7], ['Auction slots', 27], ['Order slots', 18], ['Coins', 500]] },
+    { name: 'Simply', plus: '+', tag: 'Lifetime', price: 14.99, note: 'one-time', id: 0, featured: true,
+      rows: [['Homes', 7], ['Auction slots', 27], ['Order slots', 18], ['Coins', 1000]] },
   ];
 
   // amount: coins they get. was: crossed-out amount (leave out for none). bonus: green badge text.
@@ -164,6 +167,7 @@
   var ranks = document.getElementById('ranks');
   RANKS.forEach(function (r) {
     var card = el('div', 'rank' + (r.featured ? ' featured' : ''));
+    if (r.tag) card.appendChild(el('span', 'tag', r.tag));
     var h = el('h3', null, r.name); if (r.plus) h.appendChild(el('span', null, r.plus));
     card.appendChild(h);
     var rows = el('div', 'rows');
