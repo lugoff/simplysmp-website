@@ -30,8 +30,14 @@
   a { color: inherit; }
   .wrap { max-width: 840px; margin: 0 auto; padding: 0 16px; }
 
+  /* menu bar */
+  .menu { display: flex; justify-content: center; gap: 6px; padding-top: 18px; flex-wrap: wrap; }
+  .menu a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; }
+  .menu a:hover { color: var(--text); background: var(--surface); }
+  .menu a.on { color: var(--text); background: var(--surface); }
+
   /* header */
-  .top { text-align: center; padding: 72px 0 40px; }
+  .top { text-align: center; padding: 48px 0 40px; }
   .top h1 { font-family: var(--pixel); font-size: 44px; margin: 0; letter-spacing: 1px; }
   .top h1 span { color: var(--green); }
   .top p { font-family: var(--pixel); color: var(--muted); font-size: 17px; margin: 10px 0 8px; }
@@ -96,6 +102,12 @@
 <body>
 <div class="wrap">
 
+  <nav class="menu">
+    <a class="on" href="/">Store</a>
+    <a href="forums.html">Forums</a>
+    <a href="https://discord.gg/HEVZFJ2D5T">Discord</a>
+  </nav>
+
   <div class="top">
     <h1>Simply<span>SMP</span></h1>
     <p>Upgrade your experience on SimplySMP</p>
@@ -114,6 +126,7 @@
 
   <footer>
     <nav>
+      <a href="forums.html">Forums</a>
       <a href="https://discord.gg/HEVZFJ2D5T">Discord</a>
       <a id="terms" href="#">Terms</a>
       <a id="refunds" href="#">Refunds</a>

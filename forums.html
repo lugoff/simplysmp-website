@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SimplySMP Forums</title>
+<meta name="description" content="SimplySMP forums: suggestions, bug reports, trading and staff applications.">
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Pixelify+Sans:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #111214;
+    --surface: #17181b;
+    --surface-2: #1d1f23;
+    --border: #26282c;
+    --text: #e6e7e9;
+    --muted: #8e9196;
+    --green: #4fbf66;
+    --green-soft: #6fbf86;
+    --green-dark: #1a4527;
+    --pixel: "Pixelify Sans", Inter, system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 840px; margin: 0 auto; padding: 0 16px; }
+
+  /* menu bar */
+  .menu { display: flex; justify-content: center; gap: 6px; padding-top: 18px; flex-wrap: wrap; }
+  .menu a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; }
+  .menu a:hover { color: var(--text); background: var(--surface); }
+  .menu a.on { color: var(--text); background: var(--surface); }
+
+  /* header */
+  .top { text-align: center; padding: 48px 0 40px; }
+  .top h1 { font-family: var(--pixel); font-size: 44px; margin: 0; letter-spacing: 1px; }
+  .top h1 span { color: var(--green); }
+  .top p { font-family: var(--pixel); color: var(--muted); font-size: 17px; margin: 10px 0 0; }
+
+  /* sections */
+  section { padding: 30px 0 38px; }
+  section + section { border-top: 1px solid var(--border); }
+  .head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+  .head h2 { font-family: var(--pixel); font-size: 22px; margin: 0; }
+  .head span { color: var(--muted); font-size: 13px; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+
+  /* board cards */
+  .board {
+    display: flex; flex-direction: column; gap: 6px; text-decoration: none;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px;
+    transition: border-color .15s;
+  }
+  .board:hover { border-color: var(--green-dark); }
+  .board h3 { font-family: var(--pixel); font-size: 20px; font-weight: 500; margin: 0; }
+  .board p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+  .board .go { margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--green-soft); }
+
+  /* staff applications */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; }
+  .card h3 { font-family: var(--pixel); font-size: 20px; font-weight: 500; margin: 0 0 10px; }
+  .card ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+  .card ul b { color: var(--text); font-weight: 600; }
+  .apply { margin-top: 14px; }
+  .apply iframe { width: 100%; height: 900px; border: 0; border-radius: 10px; background: #fff; }
+  .btn {
+    display: inline-block; text-decoration: none; margin-top: 16px; padding: 12px 18px;
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
+    font-family: var(--pixel); font-size: 18px; color: var(--green); transition: border-color .15s, background .15s;
+  }
+  .btn:hover { border-color: var(--green); background: #1a2a1f; }
+  .note { color: var(--muted); font-size: 13px; margin: 12px 0 0; }
+
+  footer { border-top: 1px solid var(--border); padding: 26px 0 40px; text-align: center; color: var(--muted); font-size: 13px; }
+  footer nav a { color: var(--muted); margin: 0 9px; }
+  footer nav a:hover { color: var(--text); }
+  footer p { margin: 14px 0 0; font-size: 12px; }
+
+  @media (max-width: 520px) {
+    .top { padding-top: 32px; }
+    .top h1 { font-size: 36px; }
+    .head { flex-direction: column; gap: 2px; }
+    .apply iframe { height: 1100px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="menu">
+    <a href="/">Store</a>
+    <a class="on" href="forums.html">Forums</a>
+    <a href="https://discord.gg/HEVZFJ2D5T">Discord</a>
+  </nav>
+
+  <div class="top">
+    <h1>Simply<span>SMP</span></h1>
+    <p>Forums</p>
+  </div>
+
+  <section>
+    <div class="head"><h2>Boards</h2><span>Posts live on our Discord. Join to read and post.</span></div>
+    <div class="grid" id="boards"></div>
+  </section>
+
+  <section id="apply-section">
+    <div class="head"><h2>Apply for Staff</h2><span>Help keep SimplySMP fair and fun.</span></div>
+    <div class="card">
+      <h3>Before you apply</h3>
+      <ul id="requirements"></ul>
+      <div class="apply" id="apply"></div>
+    </div>
+  </section>
+
+  <footer>
+    <nav>
+      <a href="/">Store</a>
+      <a href="https://discord.gg/HEVZFJ2D5T">Discord</a>
+    </nav>
+    <p>SimplySMP is not an official Minecraft product and is not approved by or associated with Mojang or Microsoft.</p>
+  </footer>
+
+</div>
+<script>
+  // =====================================================================
+  //  EDIT THIS PART
+  // =====================================================================
+
+  var DISCORD_INVITE = 'https://discord.gg/HEVZFJ2D5T';
+
+  // Each board opens a Discord forum channel. To link straight to a channel:
+  // in Discord, right-click the channel > Copy Channel Link, and paste it as link.
+  // Leave link as '' and the board opens your Discord invite instead.
+  var BOARDS = [
+    { name: 'Suggestions',  text: 'Ideas to make the server better. One idea per post, vote on others.', link: '' },
+    { name: 'Bug Reports',  text: 'Found a bug? Post what happened and how to make it happen again. Dupes and exploits go in a ticket.', link: '' },
+    { name: 'Trading',      text: 'Buy, sell and trade with other players. Scams are bannable.', link: '' },
+    { name: 'General',      text: 'Talk about anything SimplySMP: builds, stories, screenshots and more.', link: '' },
+  ];
+
+  var REQUIREMENTS = [
+    '<b>14+</b> years old',
+    '<b>Active</b> on the server and the Discord',
+    '<b>No</b> recent mutes or bans',
+    'Able to stay <b>calm and fair</b>, even with friends',
+    'Don’t ask staff about your application. We’ll reach out.',
+  ];
+
+  // Your Google Form link (Send > link icon > copy). Leave '' to send people to a Discord ticket instead.
+  var GOOGLE_FORM = '';
+
+  // =====================================================================
+
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  var boards = document.getElementById('boards');
+  BOARDS.forEach(function (b) {
+    var card = el('a', 'board');
+    card.href = b.link || DISCORD_INVITE;
+    card.target = '_blank';
+    card.rel = 'noopener';
+    card.appendChild(el('h3', null, b.name));
+    card.appendChild(el('p', null, b.text));
+    card.appendChild(el('span', 'go', 'Open on Discord →'));
+    boards.appendChild(card);
+  });
+
+  var list = document.getElementById('requirements');
+  REQUIREMENTS.forEach(function (line) { var li = el('li'); li.innerHTML = line; list.appendChild(li); });
+
+  var apply = document.getElementById('apply');
+  if (GOOGLE_FORM) {
+    // Google Forms show inside the page when the link ends in ?embedded=true
+    var url = GOOGLE_FORM.split('?')[0].replace(/\/edit$/, '/viewform') + '?embedded=true';
+    var frame = el('iframe');
+    frame.src = url;
+    frame.title = 'Staff application';
+    frame.loading = 'lazy';
+    apply.appendChild(frame);
+    var open = el('a', 'note', 'Form not loading? Open it in a new tab.');
+    open.href = url.replace('?embedded=true', '');
+    open.target = '_blank';
+    apply.appendChild(open);
+  } else {
+    var btn = el('a', 'btn', 'Apply in a Discord ticket');
+    btn.href = DISCORD_INVITE;
+    btn.target = '_blank';
+    btn.rel = 'noopener';
+    apply.appendChild(btn);
+    apply.appendChild(el('p', 'note', 'Open a ticket in our Discord and pick "Staff Application".'));
+  }
+</script>
+</body>
+</html>
