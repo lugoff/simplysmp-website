@@ -35,21 +35,8 @@
   a { color: inherit; }
   .wrap { max-width: 900px; margin: 0 auto; padding: 0 16px; }
 
-  /* ---------- hero: night sky over blocky hills ---------- */
+  /* ---------- hero ---------- */
   .hero { position: relative; overflow: hidden; background: linear-gradient(#0c1412 0%, #0f1011 100%); border-bottom: 1px solid var(--border); }
-  .hero .stars { position: absolute; inset: 0; background-image:
-      radial-gradient(1px 1px at 12% 22%, #ffffff55 50%, transparent 51%),
-      radial-gradient(1px 1px at 28% 12%, #ffffff40 50%, transparent 51%),
-      radial-gradient(1px 1px at 47% 30%, #ffffff35 50%, transparent 51%),
-      radial-gradient(1px 1px at 66% 16%, #ffffff50 50%, transparent 51%),
-      radial-gradient(1px 1px at 83% 26%, #ffffff3a 50%, transparent 51%),
-      radial-gradient(1px 1px at 92% 9%,  #ffffff45 50%, transparent 51%),
-      radial-gradient(1px 1px at 6% 8%,   #ffffff30 50%, transparent 51%);
-    pointer-events: none; }
-  .hero .moon { position: absolute; top: 96px; right: 10%; width: 26px; height: 26px; background: #e9e4cf; box-shadow: 0 0 40px #e9e4cf33; image-rendering: pixelated; }
-  .hero .moon::after { content: ""; position: absolute; left: 6px; top: 6px; width: 6px; height: 6px; background: #cfc8ad; box-shadow: 10px 8px 0 -1px #cfc8ad; }
-  .hills { position: absolute; left: 0; right: 0; bottom: 0; height: 64px; pointer-events: none; }
-  .hills svg { width: 100%; height: 100%; display: block; }
 
   .menu { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 16px 0; }
   .brand { font-family: var(--pixel); font-size: 20px; text-decoration: none; }
@@ -58,7 +45,7 @@
   .menu nav a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 6px 11px; border-radius: 8px; }
   .menu nav a:hover, .menu nav a.on { color: var(--text); background: #ffffff0d; }
 
-  .intro { position: relative; text-align: center; padding: 46px 0 104px; }
+  .intro { position: relative; text-align: center; padding: 46px 0 56px; }
   .intro h1 { font-family: var(--pixel); font-size: 46px; line-height: 1.05; margin: 0; letter-spacing: .5px; }
   .intro h1 span { color: var(--green); }
   .intro p { color: var(--muted); font-size: 16px; margin: 12px auto 0; max-width: 460px; line-height: 1.5; }
@@ -159,12 +146,11 @@
   @media (max-width: 600px) {
     .compare { display: none; }
     .cards { display: grid; }
-    .intro { padding: 34px 0 92px; }
+    .intro { padding: 34px 0 44px; }
     .intro h1 { font-size: 36px; }
     .brand { display: none; }
     .menu { justify-content: center; }
-    .hero .moon { top: 70px; right: 7%; width: 20px; height: 20px; }
-  }
+    }
   @media (max-width: 420px) {
     .packs { grid-template-columns: 1fr; }
   }
@@ -173,8 +159,6 @@
 <body>
 
 <header class="hero">
-  <div class="stars"></div>
-  <div class="moon"></div>
   <div class="wrap">
     <div class="menu">
       <a class="brand" href="/">Simply<span>SMP</span></a>
@@ -189,13 +173,6 @@
       <p>Every purchase helps keep the server running. Thank you for supporting us!</p>
       <button class="ip" id="ip" type="button">simplysmp.org <small>Copy IP</small></button>
     </div>
-  </div>
-  <div class="hills" aria-hidden="true">
-    <svg viewBox="0 0 960 64" preserveAspectRatio="none" shape-rendering="crispEdges">
-      <path fill="#14281b" d="M0 40h64v-8h48v-8h64v8h40v-16h56v8h48v8h72v-8h40v-16h64v16h48v8h56v-8h72v16h40v-8h56v-8h48v8h56v8h48v-16h40v24H960v40H0z"/>
-      <path fill="#1d3a26" d="M0 48h88v-8h72v8h56v-8h64v8h96v-8h48v8h80v-8h56v8h72v-8h64v8h88v-8h48v8h128v16H0z"/>
-      <rect fill="#2c2018" y="56" width="960" height="8"/>
-    </svg>
   </div>
 </header>
 
