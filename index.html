@@ -38,9 +38,7 @@
   /* ---------- hero ---------- */
   .hero { position: relative; overflow: hidden; background: linear-gradient(#0c1412 0%, #0f1011 100%); border-bottom: 1px solid var(--border); }
 
-  .menu { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 16px 0; }
-  .brand { font-family: Inter, system-ui, sans-serif; font-weight: 500; font-size: 20px; text-decoration: none; }
-  .brand span { color: var(--green); }
+  .menu { position: relative; display: flex; justify-content: center; align-items: center; padding: 16px 0; }
   .menu nav { display: flex; gap: 4px; }
   .menu nav a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 6px 11px; border-radius: 8px; }
   .menu nav a:hover, .menu nav a.on { color: var(--text); background: #ffffff0d; }
@@ -148,8 +146,6 @@
     .cards { display: grid; }
     .intro { padding: 34px 0 44px; }
     .intro h1 { font-size: 36px; }
-    .brand { display: none; }
-    .menu { justify-content: center; }
     }
   @media (max-width: 420px) {
     .packs { grid-template-columns: 1fr; }
@@ -161,7 +157,6 @@
 <header class="hero">
   <div class="wrap">
     <div class="menu">
-      <a class="brand" href="/">Simply<span>SMP</span></a>
       <nav>
         <a class="on" href="/">Store</a>
         <a href="forums.html">Forums</a>
