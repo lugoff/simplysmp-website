@@ -4,137 +4,238 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SimplySMP Store</title>
-<meta name="description" content="Upgrade your experience on SimplySMP. Ranks and coins for the SimplySMP Minecraft server.">
+<meta name="description" content="Ranks and coins for SimplySMP, a hard survival Minecraft server with a player-run economy.">
 <link rel="icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Pixelify+Sans:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #111214;
-    --surface: #17181b;
-    --surface-2: #1d1f23;
-    --border: #26282c;
-    --text: #e6e7e9;
-    --muted: #8e9196;
+    --bg: #0f1011;
+    --surface: #16171a;
+    --surface-2: #1c1e21;
+    --border: #25272b;
+    --text: #e7e8ea;
+    --muted: #8b8f95;
     --green: #4fbf66;
-    --green-soft: #6fbf86;
-    --green-dark: #1a4527;
+    --green-soft: #74c98b;
+    --green-deep: #173d23;
+    --gold: #f2c14e;
+    --dirt: #3a2b1f;
+    --dirt-2: #2c2018;
     --pixel: "Pixelify Sans", Inter, system-ui, sans-serif;
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     margin: 0; background: var(--bg); color: var(--text);
     font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
   a { color: inherit; }
-  .wrap { max-width: 840px; margin: 0 auto; padding: 0 16px; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 16px; }
 
-  /* menu bar */
-  .menu { display: flex; justify-content: center; gap: 6px; padding-top: 18px; flex-wrap: wrap; }
-  .menu a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; }
-  .menu a:hover { color: var(--text); background: var(--surface); }
-  .menu a.on { color: var(--text); background: var(--surface); }
+  /* ---------- hero: night sky over blocky hills ---------- */
+  .hero { position: relative; overflow: hidden; background: linear-gradient(#0c1412 0%, #0f1011 100%); border-bottom: 1px solid var(--border); }
+  .hero .stars { position: absolute; inset: 0; background-image:
+      radial-gradient(1px 1px at 12% 22%, #ffffff55 50%, transparent 51%),
+      radial-gradient(1px 1px at 28% 12%, #ffffff40 50%, transparent 51%),
+      radial-gradient(1px 1px at 47% 30%, #ffffff35 50%, transparent 51%),
+      radial-gradient(1px 1px at 66% 16%, #ffffff50 50%, transparent 51%),
+      radial-gradient(1px 1px at 83% 26%, #ffffff3a 50%, transparent 51%),
+      radial-gradient(1px 1px at 92% 9%,  #ffffff45 50%, transparent 51%),
+      radial-gradient(1px 1px at 6% 8%,   #ffffff30 50%, transparent 51%);
+    pointer-events: none; }
+  .hero .moon { position: absolute; top: 96px; right: 10%; width: 26px; height: 26px; background: #e9e4cf; box-shadow: 0 0 40px #e9e4cf33; image-rendering: pixelated; }
+  .hero .moon::after { content: ""; position: absolute; left: 6px; top: 6px; width: 6px; height: 6px; background: #cfc8ad; box-shadow: 10px 8px 0 -1px #cfc8ad; }
+  .hills { position: absolute; left: 0; right: 0; bottom: 0; height: 64px; pointer-events: none; }
+  .hills svg { width: 100%; height: 100%; display: block; }
 
-  /* header */
-  .top { text-align: center; padding: 48px 0 40px; }
-  .top h1 { font-family: var(--pixel); font-size: 44px; margin: 0; letter-spacing: 1px; }
-  .top h1 span { color: var(--green); }
-  .top p { font-family: var(--pixel); color: var(--muted); font-size: 17px; margin: 10px 0 8px; }
+  .menu { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 16px 0; }
+  .brand { font-family: var(--pixel); font-size: 20px; text-decoration: none; }
+  .brand span { color: var(--green); }
+  .menu nav { display: flex; gap: 4px; }
+  .menu nav a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 6px 11px; border-radius: 8px; }
+  .menu nav a:hover, .menu nav a.on { color: var(--text); background: #ffffff0d; }
+
+  .intro { position: relative; text-align: center; padding: 46px 0 104px; }
+  .intro h1 { font-family: var(--pixel); font-size: 46px; line-height: 1.05; margin: 0; letter-spacing: .5px; }
+  .intro h1 span { color: var(--green); }
+  .intro p { color: var(--muted); font-size: 16px; margin: 12px auto 0; max-width: 460px; line-height: 1.5; }
+  .chips { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .chip { font-size: 12px; font-weight: 600; color: var(--green-soft); background: #4fbf6614; border: 1px solid #4fbf6630; border-radius: 999px; padding: 4px 10px; }
   .ip {
-    font-family: var(--pixel); font-size: 16px; color: var(--green-soft); background: none; border: 0;
-    cursor: pointer; padding: 4px 8px; border-radius: 6px;
+    margin-top: 24px; display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+    font-family: var(--pixel); font-size: 18px; color: var(--green-soft); background: #4fbf6614;
+    border: 1px solid #4fbf6630; border-radius: 10px; padding: 9px 14px; transition: border-color .15s, background .15s;
   }
-  .ip:hover { background: var(--surface); }
-  .ip small { color: var(--muted); font-size: 12px; margin-left: 6px; }
+  .ip:hover { border-color: var(--green); background: #4fbf6622; }
+  .ip small { font-family: Inter, sans-serif; color: var(--green-soft); opacity: .75; font-size: 12px; font-weight: 600; }
 
-  /* sections */
-  section { padding: 30px 0 38px; }
-  section + section { border-top: 1px solid var(--border); }
-  .head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
-  .head h2 { font-family: var(--pixel); font-size: 22px; margin: 0; }
-  .head span { color: var(--muted); font-size: 13px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+  /* ---------- sections ---------- */
+  section { padding: 40px 0 8px; }
+  .head { margin-bottom: 18px; }
+  .head h2 { font-family: var(--pixel); font-size: 26px; margin: 0; font-weight: 500; }
+  .head h2::before { content: ""; display: inline-block; width: 10px; height: 10px; background: var(--green); margin-right: 10px; vertical-align: 4px; box-shadow: 3px 3px 0 var(--green-deep); }
+  .head p { color: var(--muted); font-size: 14px; margin: 6px 0 0; }
 
-  /* rank cards */
-  .rank { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 20px 20px; display: flex; flex-direction: column; }
-  .rank.featured { border-color: var(--green-dark); }
-  .rank.featured .tag { color: var(--green-soft); background: #1a2a1f; }
-  .rank h3 { font-family: var(--pixel); font-size: 28px; margin: 0 0 18px; font-weight: 500; }
-  .rank h3 span { color: var(--green); }
-  .rank .tag { display: inline-block; font-size: 11px; font-weight: 600; color: var(--muted); background: var(--surface-2); border-radius: 6px; padding: 2px 8px; margin-bottom: 10px; align-self: flex-start; }
-  .rows { margin: 0 0 20px; flex: 1; }
-  .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
-  .row:last-child { border-bottom: 0; }
-  .row b { font-weight: 700; }
-  .price-btn {
-    display: block; text-align: center; text-decoration: none; padding: 13px;
-    background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
-    font-family: var(--pixel); font-size: 22px; color: var(--green); transition: border-color .15s, background .15s;
+  /* ---------- ranks: comparison table ---------- */
+  .compare { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .compare th, .compare td { padding: 13px 14px; text-align: center; font-size: 14px; border-bottom: 1px solid var(--border); }
+  .compare tr:last-child td { border-bottom: 0; }
+  .compare td:first-child, .compare th:first-child { text-align: left; color: var(--muted); font-weight: 500; }
+  .compare thead th { vertical-align: bottom; padding-top: 18px; }
+  .compare .plan { font-family: var(--pixel); font-size: 22px; font-weight: 500; color: var(--text); }
+  .compare .plan span { color: var(--green); }
+  .compare .kind { display: block; font-family: Inter, sans-serif; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; margin-top: 3px; }
+  .compare td b { font-weight: 700; }
+  .compare .hl { background: #4fbf660a; }
+  .compare thead .hl { box-shadow: inset 0 3px 0 var(--green); }
+  .best { display: inline-block; font-family: Inter, sans-serif; font-size: 10px; font-weight: 700; color: #0e1a11; background: var(--green); border-radius: 4px; padding: 1px 6px; margin-bottom: 6px; letter-spacing: .3px; }
+  .btn {
+    display: block; text-decoration: none; text-align: center; padding: 10px 8px; border-radius: 9px;
+    font-family: var(--pixel); font-size: 19px; color: var(--green); background: var(--surface-2);
+    border: 1px solid var(--border); transition: border-color .15s, background .15s;
   }
-  .price-btn small { font-size: 13px; color: var(--muted); margin-left: 4px; }
-  a.price-btn:hover { border-color: var(--green); background: #1a2a1f; }
-  .price-btn.free { color: var(--muted); cursor: default; }
+  .btn small { display: block; font-family: Inter, sans-serif; font-size: 11px; color: var(--muted); margin-top: 1px; }
+  a.btn:hover { border-color: var(--green); background: #1a2a1f; }
+  .btn.solid { background: var(--green); color: #0e1a11; border-color: var(--green); }
+  .btn.solid small { color: #0e1a11aa; }
+  a.btn.solid:hover { background: var(--green-soft); }
+  .btn.free { color: var(--muted); }
 
-  /* coin cards */
-  .pack { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; text-align: center; position: relative; text-decoration: none; display: block; transition: border-color .15s; }
-  .pack:hover { border-color: #5c4a1a; }
-  .pack .bonus { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 700; color: #0f1a12; background: var(--green); border-radius: 5px; padding: 1px 7px; }
-  .pack img { width: 100%; max-width: 190px; aspect-ratio: 384 / 352; image-rendering: pixelated; display: block; margin: 14px auto 4px; }
-  .pack .amount { font-size: 20px; font-weight: 700; color: #f5c542; letter-spacing: 0.2px; }
-  .pack .was { color: var(--muted); text-decoration: line-through; font-size: 14px; font-weight: 500; margin-right: 6px; }
-  .pack .buy { margin: 14px auto 0; max-width: 200px; padding: 8px; border: 1px solid var(--border); border-radius: 8px; font-weight: 600; font-size: 14px; }
-  .pack .buy small { color: var(--muted); font-size: 11px; margin-left: 4px; }
-  .pack:hover .buy { border-color: #f5c542; }
+  /* phones: each plan becomes its own card */
+  .cards { display: none; gap: 12px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+  .card.hl { border-color: var(--green-deep); box-shadow: inset 0 3px 0 var(--green); }
+  .card .plan { font-family: var(--pixel); font-size: 24px; }
+  .card .plan span { color: var(--green); }
+  .card .kind { color: var(--muted); font-size: 12px; font-weight: 600; margin-left: 6px; }
+  .card .line { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .card .line span { color: var(--muted); }
+  .card .btn { margin-top: 14px; }
 
-  footer { border-top: 1px solid var(--border); padding: 26px 0 40px; text-align: center; color: var(--muted); font-size: 13px; }
-  footer nav a { color: var(--muted); margin: 0 9px; }
-  footer nav a:hover { color: var(--text); }
-  footer p { margin: 14px 0 0; font-size: 12px; }
+  /* ---------- coins ---------- */
+  .packs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .pack {
+    position: relative; display: flex; align-items: center; gap: 12px; text-decoration: none;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px 12px 10px;
+    transition: border-color .15s, transform .15s;
+  }
+  .pack:hover { border-color: #6b5520; transform: translateY(-1px); }
+  .pack img { width: 72px; height: 66px; object-fit: contain; image-rendering: pixelated; flex: none; }
+  .pack .info { flex: 1; min-width: 0; }
+  .pack .amount { font-size: 18px; font-weight: 700; color: var(--gold); }
+  .pack .was { display: block; color: var(--muted); text-decoration: line-through; font-size: 12px; font-weight: 500; }
+  .pack .price { font-size: 14px; font-weight: 600; margin-top: 4px; }
+  .pack .price small { color: var(--muted); font-size: 11px; margin-left: 3px; }
+  .pack .bonus { position: absolute; top: -8px; right: 10px; font-size: 11px; font-weight: 700; color: #0e1a11; background: var(--green); border-radius: 5px; padding: 1px 7px; }
+  .coin-note { color: var(--muted); font-size: 13px; margin: 14px 0 0; }
 
-  @media (max-width: 520px) {
-    .top { padding-top: 48px; }
-    .top h1 { font-size: 36px; }
-    .head { flex-direction: column; gap: 2px; }
+  /* ---------- how it works ---------- */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; counter-reset: s; }
+  .step { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+  .step::before { counter-increment: s; content: counter(s); display: inline-grid; place-items: center; width: 26px; height: 26px; font-family: var(--pixel); font-size: 16px; color: #0e1a11; background: var(--green); margin-bottom: 10px; }
+  .step b { display: block; font-size: 15px; margin-bottom: 4px; }
+  .step span { color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+  /* ---------- FAQ ---------- */
+  .faq details { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px; }
+  .faq summary { cursor: pointer; padding: 14px 16px; font-weight: 600; font-size: 14px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; font-family: var(--pixel); color: var(--green); font-size: 18px; line-height: 1; }
+  .faq details[open] summary::after { content: "\2212"; }
+  .faq p { margin: 0; padding: 0 16px 14px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+  footer { margin-top: 44px; border-top: 1px solid var(--border); padding: 24px 0 40px; text-align: center; color: var(--muted); font-size: 13px; }
+  footer nav a { color: var(--muted); margin: 0 10px; text-decoration: none; }
+  footer nav a:hover { color: var(--text); text-decoration: underline; }
+  footer p { margin: 14px auto 0; font-size: 12px; max-width: 560px; line-height: 1.5; }
+
+  @media (max-width: 760px) {
+    .packs { grid-template-columns: repeat(2, 1fr); }
+    .steps { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .compare { display: none; }
+    .cards { display: grid; }
+    .intro { padding: 34px 0 92px; }
+    .intro h1 { font-size: 36px; }
+    .brand { display: none; }
+    .menu { justify-content: center; }
+    .hero .moon { top: 70px; right: 7%; width: 20px; height: 20px; }
+  }
+  @media (max-width: 420px) {
+    .packs { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <nav class="menu">
-    <a class="on" href="/">Store</a>
-    <a href="forums.html">Forums</a>
-    <a href="https://discord.gg/HEVZFJ2D5T">Discord</a>
-  </nav>
-
-  <div class="top">
-    <h1>Simply<span>SMP</span></h1>
-    <p>Upgrade your experience on SimplySMP</p>
-    <button class="ip" id="ip" type="button">simplysmp.org<small>click to copy</small></button>
+<header class="hero">
+  <div class="stars"></div>
+  <div class="moon"></div>
+  <div class="wrap">
+    <div class="menu">
+      <a class="brand" href="/">Simply<span>SMP</span></a>
+      <nav>
+        <a class="on" href="/">Store</a>
+        <a href="forums.html">Forums</a>
+        <a href="https://discord.gg/HEVZFJ2D5T">Discord</a>
+      </nav>
+    </div>
+    <div class="intro">
+      <h1>Simply<span>SMP</span> Store</h1>
+      <p>Every purchase helps keep the server running. Thank you for supporting us!</p>
+      <button class="ip" id="ip" type="button">simplysmp.org <small>Copy IP</small></button>
+    </div>
   </div>
+  <div class="hills" aria-hidden="true">
+    <svg viewBox="0 0 960 64" preserveAspectRatio="none" shape-rendering="crispEdges">
+      <path fill="#14281b" d="M0 40h64v-8h48v-8h64v8h40v-16h56v8h48v8h72v-8h40v-16h64v16h48v8h56v-8h72v16h40v-8h56v-8h48v8h56v8h48v-16h40v24H960v40H0z"/>
+      <path fill="#1d3a26" d="M0 48h88v-8h72v8h56v-8h64v8h96v-8h48v8h80v-8h56v8h72v-8h64v8h88v-8h48v8h128v16H0z"/>
+      <rect fill="#2c2018" y="56" width="960" height="8"/>
+    </svg>
+  </div>
+</header>
 
-  <section>
-    <div class="head"><h2>Ranks</h2><span>Find your next upgrade.</span></div>
-    <div class="grid" id="ranks"></div>
+<main class="wrap">
+
+  <section id="ranks-section">
+    <div class="head"><h2>Ranks</h2><p>Same survival, more room to play.</p></div>
+    <table class="compare" id="compare"></table>
+    <div class="cards" id="cards"></div>
   </section>
 
   <section>
-    <div class="head"><h2>Coins</h2><span>Just after coins? Pick a one-time pack.</span></div>
-    <div class="grid" id="coins"></div>
+    <div class="head"><h2>Coins</h2><p>Spend them in game with <b>/coinshop</b>.</p></div>
+    <div class="packs" id="coins"></div>
+  </section>
+
+  <section>
+    <div class="head"><h2>How it works</h2></div>
+    <div class="steps">
+      <div class="step"><b>Pick a package</b><span>Choose a rank or coin pack above.</span></div>
+      <div class="step"><b>Enter your username</b><span>Type your exact Minecraft name at checkout.</span></div>
+      <div class="step"><b>Play</b><span>It's delivered in game automatically, usually within a few minutes.</span></div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq-section">
+    <div class="head"><h2>Questions</h2></div>
+    <div id="faq"></div>
   </section>
 
   <footer>
     <nav>
-      <a href="forums.html">Forums</a>
-      <a href="https://discord.gg/HEVZFJ2D5T">Discord</a>
-      <a id="terms" href="#">Terms</a>
-      <a id="refunds" href="#">Refunds</a>
+      <a id="terms" href="terms.html">Terms of Service</a>
+      <a id="refunds" href="refunds.html">Refund Policy</a>
     </nav>
     <p>Payments are handled by Tebex. SimplySMP is not an official Minecraft product and is not approved by or associated with Mojang or Microsoft.</p>
   </footer>
 
-</div>
+</main>
+
 <script>
   // =====================================================================
   //  EDIT THIS PART. Everything on the page is built from these lists.
@@ -146,17 +247,18 @@
   // id = the package's number in Tebex (open the package in the Tebex panel; it's in the address bar).
   // Leave an id as 0 and that button opens the store's front page instead.
 
+  // The rows every rank shows, in order (each rank needs the same number of values below).
+  var PERKS = ['Homes', 'Auction slots', 'Order slots', 'Coins'];
+
+  // best: true = highlighted column with the green "BEST VALUE" badge.
   var RANKS = [
-    { name: 'Member', plus: '', tag: 'Default', free: true,
-      rows: [['Homes', 3], ['Auction slots', 18], ['Order slots', 9], ['Coins', 0]] },
-    { name: 'Simply', plus: '+', tag: 'Monthly', price: 4.99, note: '/month', id: 0,
-      rows: [['Homes', 7], ['Auction slots', 27], ['Order slots', 18], ['Coins', 500]] },
-    { name: 'Simply', plus: '+', tag: 'Lifetime', price: 14.99, note: 'one-time', id: 0, featured: true,
-      rows: [['Homes', 7], ['Auction slots', 27], ['Order slots', 18], ['Coins', 1000]] },
+    { name: 'Member', plus: '', kind: 'Default', free: true, values: [3, 18, 9, 0] },
+    { name: 'Simply', plus: '+', kind: 'Monthly', price: 4.99, note: 'per month', id: 0, values: [7, 27, 18, 500] },
+    { name: 'Simply', plus: '+', kind: 'Lifetime', price: 14.99, note: 'one-time', id: 0, best: true, values: [7, 27, 18, 1000] },
   ];
 
   // amount: coins they get. was: crossed-out amount (leave out for none). bonus: green badge text.
-  // img: 1 (small) to 6 (big pile). These amounts and prices are EXAMPLES: set your own.
+  // img: 1 (small) to 6 (big pile).
   var COINS = [
     { amount: 100,   price: 0.99,  img: 1, id: 0 },
     { amount: 500,   price: 4.99,  img: 2, id: 0 },
@@ -166,9 +268,13 @@
     { amount: 14000, price: 99.99, img: 6, id: 0, was: 10000, bonus: '+40%' },
   ];
 
-  // Links to your Terms and Refund pages on Tebex (leave '' to hide them)
-  var TERMS_URL = '';
-  var REFUNDS_URL = '';
+  // Questions at the bottom. Add, remove or change freely.
+  var FAQ = [
+    ['When do I get my purchase?', 'It is delivered in game automatically, usually within a few minutes. Make sure you typed your exact Minecraft username at checkout.'],
+    ['What can I do with coins?', 'Spend them in the coin shop in game with /coinshop. You also earn coins by playing and voting.'],
+    ['My purchase didn\'t show up. What now?', 'Open a ticket in our Discord with your username and the email you paid with, and we will sort it out.'],
+    ['Can I get a refund?', 'See our Refund Policy at the bottom of this page.'],
+  ];
 
   // =====================================================================
 
@@ -177,51 +283,82 @@
   function num(n) { return n.toLocaleString('en-US'); }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
 
-  var ranks = document.getElementById('ranks');
-  RANKS.forEach(function (r) {
-    var card = el('div', 'rank' + (r.featured ? ' featured' : ''));
-    if (r.tag) card.appendChild(el('span', 'tag', r.tag));
-    var h = el('h3', null, r.name); if (r.plus) h.appendChild(el('span', null, r.plus));
-    card.appendChild(h);
-    var rows = el('div', 'rows');
-    r.rows.forEach(function (row) {
-      var line = el('div', 'row'); line.appendChild(el('span', null, row[0])); line.appendChild(el('b', null, num(row[1])));
-      rows.appendChild(line);
-    });
-    card.appendChild(rows);
-    var btn;
-    if (r.free) { btn = el('div', 'price-btn free', 'Free'); }
+  function planName(r) {
+    var h = el('span', 'plan', r.name);
+    if (r.plus) h.appendChild(el('span', null, r.plus));
+    return h;
+  }
+  function buyButton(r) {
+    var b;
+    if (r.free) { b = el('div', 'btn free', 'Free'); }
     else {
-      btn = el('a', 'price-btn', money(r.price)); btn.href = link(r.id);
-      btn.appendChild(el('small', null, 'USD' + (r.note ? ' · ' + r.note : '')));
+      b = el('a', 'btn' + (r.best ? ' solid' : ''), money(r.price)); b.href = link(r.id);
+      b.appendChild(el('small', null, 'USD · ' + (r.note || '')));
     }
-    card.appendChild(btn);
-    ranks.appendChild(card);
+    return b;
+  }
+
+  // desktop table
+  var table = document.getElementById('compare');
+  var thead = el('thead'), hr = el('tr');
+  hr.appendChild(el('th'));
+  RANKS.forEach(function (r) {
+    var th = el('th', r.best ? 'hl' : null);
+    if (r.best) { th.appendChild(el('span', 'best', 'BEST VALUE')); th.appendChild(el('br')); }
+    th.appendChild(planName(r));
+    th.appendChild(el('span', 'kind', r.kind));
+    hr.appendChild(th);
+  });
+  thead.appendChild(hr); table.appendChild(thead);
+  var tbody = el('tbody');
+  PERKS.forEach(function (perk, i) {
+    var tr = el('tr');
+    tr.appendChild(el('td', null, perk));
+    RANKS.forEach(function (r) { var td = el('td', r.best ? 'hl' : null); td.appendChild(el('b', null, num(r.values[i]))); tr.appendChild(td); });
+    tbody.appendChild(tr);
+  });
+  var br = el('tr'); br.appendChild(el('td'));
+  RANKS.forEach(function (r) { var td = el('td', r.best ? 'hl' : null); td.appendChild(buyButton(r)); br.appendChild(td); });
+  tbody.appendChild(br); table.appendChild(tbody);
+
+  // phone cards
+  var cards = document.getElementById('cards');
+  RANKS.forEach(function (r) {
+    var c = el('div', 'card' + (r.best ? ' hl' : ''));
+    var top = el('div'); top.appendChild(planName(r)); top.appendChild(el('span', 'kind', r.kind));
+    if (r.best) { var b = el('span', 'best', 'BEST VALUE'); b.style.marginLeft = '8px'; top.appendChild(b); }
+    c.appendChild(top);
+    PERKS.forEach(function (perk, i) { var line = el('div', 'line'); line.appendChild(el('span', null, perk)); line.appendChild(el('b', null, num(r.values[i]))); c.appendChild(line); });
+    c.appendChild(buyButton(r));
+    cards.appendChild(c);
   });
 
+  // coin packs
   var coins = document.getElementById('coins');
   COINS.forEach(function (c) {
     var card = el('a', 'pack'); card.href = link(c.id);
     if (c.bonus) card.appendChild(el('span', 'bonus', c.bonus));
     var img = el('img'); img.src = 'coins-' + c.img + '.png'; img.alt = ''; img.loading = 'lazy';
     card.appendChild(img);
-    var amount = el('div', 'amount');
-    if (c.was) amount.appendChild(el('span', 'was', num(c.was)));
-    amount.appendChild(document.createTextNode(num(c.amount) + ' Coins'));
-    card.appendChild(amount);
-    var buy = el('div', 'buy', money(c.price)); buy.appendChild(el('small', null, 'USD'));
-    card.appendChild(buy);
+    var info = el('div', 'info');
+    if (c.was) info.appendChild(el('span', 'was', num(c.was)));
+    info.appendChild(el('div', 'amount', num(c.amount) + ' Coins'));
+    var price = el('div', 'price', money(c.price)); price.appendChild(el('small', null, 'USD'));
+    info.appendChild(price);
+    card.appendChild(info);
     coins.appendChild(card);
   });
 
-  [['terms', TERMS_URL], ['refunds', REFUNDS_URL]].forEach(function (p) {
-    var a = document.getElementById(p[0]);
-    if (p[1]) a.href = p[1]; else a.style.display = 'none';
+  // FAQ
+  var faq = document.getElementById('faq');
+  if (!FAQ.length) document.getElementById('faq-section').style.display = 'none';
+  FAQ.forEach(function (q) {
+    var d = el('details'); d.appendChild(el('summary', null, q[0])); d.appendChild(el('p', null, q[1])); faq.appendChild(d);
   });
 
   document.getElementById('ip').addEventListener('click', function () {
     var small = this.querySelector('small');
-    var done = function () { small.textContent = 'copied!'; setTimeout(function () { small.textContent = 'click to copy'; }, 1500); };
+    var done = function () { small.textContent = 'Copied!'; setTimeout(function () { small.textContent = 'Copy IP'; }, 1500); };
     if (navigator.clipboard) navigator.clipboard.writeText('simplysmp.org').then(done, done); else done();
   });
 </script>
