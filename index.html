@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SimplySMP Store</title>
-<meta name="description" content="Ranks and coins for SimplySMP, a hard survival Minecraft server with a player-run economy.">
+<meta name="description" content="Ranks and coins for SimplySMP, a vanilla economy Minecraft server for Java and Bedrock.">
 <link rel="icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -188,7 +188,7 @@
     <div class="head"><h2>How it works</h2></div>
     <div class="steps">
       <div class="step"><b>Pick a package</b><span>Choose a rank or coin pack above.</span></div>
-      <div class="step"><b>Enter your username</b><span>Type your exact Minecraft name at checkout.</span></div>
+      <div class="step"><b>Enter your username</b><span>Type your exact Minecraft name at checkout. Bedrock players: include the dot (like .Steve).</span></div>
       <div class="step"><b>Play</b><span>It's delivered in game automatically, usually within a few minutes.</span></div>
     </div>
   </section>
@@ -203,7 +203,7 @@
       <a id="terms" href="terms.html">Terms of Service</a>
       <a id="refunds" href="refunds.html">Refund Policy</a>
     </nav>
-    <p>Payments are handled by Tebex. SimplySMP is not an official Minecraft product and is not approved by or associated with Mojang or Microsoft.</p>
+    <p>Payments are handled by CraftingStore and PayPal. SimplySMP is not an official Minecraft product and is not approved by or associated with Mojang or Microsoft.</p>
   </footer>
 
 </main>
@@ -213,11 +213,8 @@
   //  EDIT THIS PART. Everything on the page is built from these lists.
   // =====================================================================
 
-  // Your Tebex store link (no / at the end)
-  var STORE_URL = 'https://PASTE-YOUR-STORE.tebex.io';
-
-  // id = the package's number in Tebex (open the package in the Tebex panel; it's in the address bar).
-  // Leave an id as 0 and that button opens the store's front page instead.
+  // Your CraftingStore link (no / at the end). Used for any package without its own url.
+  var STORE_URL = 'https://simplysmpmc.craftingstore.net';
 
   // The rows every rank shows, in order (each rank needs the same number of values below).
   var PERKS = ['Homes', 'Auction slots', 'Order slots', 'Coins'];
@@ -225,24 +222,24 @@
   // best: true = highlighted column with the green "BEST VALUE" badge.
   var RANKS = [
     { name: 'Member', plus: '', kind: 'Default', free: true, values: [3, 18, 9, 0] },
-    { name: 'Simply', plus: '+', kind: 'Monthly', price: 4.99, note: 'per month', id: 0, values: [7, 27, 18, 500] },
-    { name: 'Simply', plus: '+', kind: 'Lifetime', price: 14.99, note: 'one-time', id: 0, best: true, values: [7, 27, 18, 1000] },
+    { name: 'Simply', plus: '+', kind: '30 Days', price: 4.99, note: 'for 30 days', url: 'https://simplysmpmc.craftingstore.net/package/1613840', values: [7, 27, 18, 500] },
+    { name: 'Simply', plus: '+', kind: 'Lifetime', price: 14.99, note: 'one-time', url: 'https://simplysmpmc.craftingstore.net/package/1613843', best: true, values: [7, 27, 18, 1000] },
   ];
 
   // amount: coins they get. was: crossed-out amount (leave out for none). bonus: green badge text.
   // img: 1 (small) to 6 (big pile).
   var COINS = [
-    { amount: 100,   price: 0.99,  img: 1, id: 0 },
-    { amount: 500,   price: 4.99,  img: 2, id: 0 },
-    { amount: 1100,  price: 9.99,  img: 3, id: 0, was: 1000,  bonus: '+10%' },
-    { amount: 2400,  price: 19.99, img: 4, id: 0, was: 2000,  bonus: '+20%' },
-    { amount: 6500,  price: 49.99, img: 5, id: 0, was: 5000,  bonus: '+30%' },
-    { amount: 14000, price: 99.99, img: 6, id: 0, was: 10000, bonus: '+40%' },
+    { amount: 100,   price: 0.99,  img: 1, url: 'https://simplysmpmc.craftingstore.net/package/1613846' },
+    { amount: 500,   price: 4.99,  img: 2, url: 'https://simplysmpmc.craftingstore.net/package/1613849' },
+    { amount: 1100,  price: 9.99,  img: 3, url: 'https://simplysmpmc.craftingstore.net/package/1613852', was: 1000,  bonus: '+10%' },
+    { amount: 2400,  price: 19.99, img: 4, url: 'https://simplysmpmc.craftingstore.net/package/1613855', was: 2000,  bonus: '+20%' },
+    { amount: 6500,  price: 49.99, img: 5, url: 'https://simplysmpmc.craftingstore.net/package/1613858', was: 5000,  bonus: '+30%' },
+    { amount: 14000, price: 99.99, img: 6, url: 'https://simplysmpmc.craftingstore.net/package/1613861', was: 10000, bonus: '+40%' },
   ];
 
   // Questions at the bottom. Add, remove or change freely.
   var FAQ = [
-    ['When do I get my purchase?', 'It is delivered in game automatically, usually within a few minutes. Make sure you typed your exact Minecraft username at checkout.'],
+    ['When do I get my purchase?', 'It is delivered in game automatically, usually within a few minutes. Make sure you typed your exact Minecraft username at checkout (Bedrock players: with the dot, like .Steve).'],
     ['What can I do with coins?', 'Spend them in the coin shop in game with /coinshop. You also earn coins by playing and voting.'],
     ['My purchase didn\'t show up. What now?', 'Open a ticket in our Discord with your username and the email you paid with, and we will sort it out.'],
     ['Can I get a refund?', 'See our Refund Policy at the bottom of this page.'],
@@ -250,7 +247,6 @@
 
   // =====================================================================
 
-  function link(id) { return id ? STORE_URL + '/package/' + id : STORE_URL; }
   function money(n) { return '$' + n.toFixed(2); }
   function num(n) { return n.toLocaleString('en-US'); }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
@@ -264,7 +260,7 @@
     var b;
     if (r.free) { b = el('div', 'btn free', 'Free'); }
     else {
-      b = el('a', 'btn' + (r.best ? ' solid' : ''), money(r.price)); b.href = link(r.id);
+      b = el('a', 'btn' + (r.best ? ' solid' : ''), money(r.price)); b.href = r.url || STORE_URL;
       b.appendChild(el('small', null, 'USD · ' + (r.note || '')));
     }
     return b;
@@ -308,7 +304,7 @@
   // coin packs
   var coins = document.getElementById('coins');
   COINS.forEach(function (c) {
-    var card = el('a', 'pack'); card.href = link(c.id);
+    var card = el('a', 'pack'); card.href = c.url || STORE_URL;
     if (c.bonus) card.appendChild(el('span', 'bonus', c.bonus));
     var img = el('img'); img.src = 'coins-' + c.img + '.png'; img.alt = ''; img.loading = 'lazy';
     card.appendChild(img);
